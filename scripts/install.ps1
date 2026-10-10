@@ -1,6 +1,6 @@
 [CmdletBinding()]
 param(
-    [string] $Repo = $(if ($env:MCPCALL_REPO) { $env:MCPCALL_REPO } else { "loonghao/mcpcall" }),
+    [string] $Repo = $(if ($env:MCPCALL_REPO) { $env:MCPCALL_REPO } else { "dcc-mcp/mcpcall" }),
     [string] $Version = $(if ($env:MCPCALL_VERSION) { $env:MCPCALL_VERSION } else { "latest" }),
     [string] $InstallDir = $(if ($env:MCPCALL_INSTALL_DIR) { $env:MCPCALL_INSTALL_DIR } else { Join-Path $env:LOCALAPPDATA "mcpcall\bin" })
 )

@@ -1,10 +1,10 @@
 # mcpcall
 
-[![CI](https://github.com/loonghao/mcpcall/actions/workflows/ci.yml/badge.svg)](https://github.com/loonghao/mcpcall/actions/workflows/ci.yml)
-[![Release](https://github.com/loonghao/mcpcall/actions/workflows/release.yml/badge.svg)](https://github.com/loonghao/mcpcall/actions/workflows/release.yml)
-[![Latest Release](https://img.shields.io/github/v/release/loonghao/mcpcall?sort=semver)](https://github.com/loonghao/mcpcall/releases)
-[![Downloads](https://img.shields.io/github/downloads/loonghao/mcpcall/total?label=downloads)](https://github.com/loonghao/mcpcall/releases)
-[![License](https://img.shields.io/github/license/loonghao/mcpcall)](Cargo.toml)
+[![CI](https://github.com/dcc-mcp/mcpcall/actions/workflows/ci.yml/badge.svg)](https://github.com/dcc-mcp/mcpcall/actions/workflows/ci.yml)
+[![Release](https://github.com/dcc-mcp/mcpcall/actions/workflows/release.yml/badge.svg)](https://github.com/dcc-mcp/mcpcall/actions/workflows/release.yml)
+[![Latest Release](https://img.shields.io/github/v/release/dcc-mcp/mcpcall?sort=semver)](https://github.com/dcc-mcp/mcpcall/releases)
+[![Downloads](https://img.shields.io/github/downloads/dcc-mcp/mcpcall/total?label=downloads)](https://github.com/dcc-mcp/mcpcall/releases)
+[![License](https://img.shields.io/github/license/dcc-mcp/mcpcall)](Cargo.toml)
 [![Rust 1.95.0](https://img.shields.io/badge/rust-1.95.0-orange)](rust-toolchain.toml)
 
 `mcpcall` is a Rust CLI for exercising MCP servers from shell scripts and CI. It
@@ -60,26 +60,26 @@ and let it download the matching GitHub Release asset for your platform.
 Linux and macOS:
 
 ```bash
-curl -fsSL https://raw.githubusercontent.com/loonghao/mcpcall/main/scripts/install.sh | sh
+curl -fsSL https://raw.githubusercontent.com/dcc-mcp/mcpcall/main/scripts/install.sh | sh
 ```
 
 Windows users can use the PowerShell installer:
 
 ```powershell
-irm https://raw.githubusercontent.com/loonghao/mcpcall/main/scripts/install.ps1 | iex
+irm https://raw.githubusercontent.com/dcc-mcp/mcpcall/main/scripts/install.ps1 | iex
 ```
 
 Pin a version or install into a CI-local directory:
 
 ```bash
 MCPCALL_VERSION=mcpcall-v0.1.0 MCPCALL_INSTALL_DIR="$RUNNER_TEMP/mcpcall-bin" \
-  sh -c "$(curl -fsSL https://raw.githubusercontent.com/loonghao/mcpcall/main/scripts/install.sh)"
+  sh -c "$(curl -fsSL https://raw.githubusercontent.com/dcc-mcp/mcpcall/main/scripts/install.sh)"
 ```
 
 ```powershell
 $env:MCPCALL_VERSION = "mcpcall-v0.1.0"
 $env:MCPCALL_INSTALL_DIR = Join-Path $env:RUNNER_TEMP "mcpcall-bin"
-irm https://raw.githubusercontent.com/loonghao/mcpcall/main/scripts/install.ps1 | iex
+irm https://raw.githubusercontent.com/dcc-mcp/mcpcall/main/scripts/install.ps1 | iex
 ```
 
 ## Usage
@@ -238,7 +238,7 @@ Use the bundled setup action from other GitHub repositories to download the
 latest release binary onto `PATH`:
 
 ```yaml
-- uses: loonghao/mcpcall/.github/actions/setup-mcpcall@main
+- uses: dcc-mcp/mcpcall/.github/actions/setup-mcpcall@main
 - run: mcpcall list --url http://127.0.0.1:8765/mcp --json
 ```
 
@@ -248,14 +248,14 @@ outside GitHub Actions:
 ```yaml
 - name: Install mcpcall
   run: |
-    curl -fsSL https://raw.githubusercontent.com/loonghao/mcpcall/main/scripts/install.sh | sh
+    curl -fsSL https://raw.githubusercontent.com/dcc-mcp/mcpcall/main/scripts/install.sh | sh
 - run: mcpcall list --url http://127.0.0.1:8765/mcp --json
 ```
 
 Pin a release tag when a workflow needs reproducibility:
 
 ```yaml
-- uses: loonghao/mcpcall/.github/actions/setup-mcpcall@main
+- uses: dcc-mcp/mcpcall/.github/actions/setup-mcpcall@main
   with:
     version: mcpcall-v0.1.0
 ```
@@ -265,7 +265,7 @@ For Windows runners:
 ```yaml
 - name: Install mcpcall
   shell: pwsh
-  run: irm https://raw.githubusercontent.com/loonghao/mcpcall/main/scripts/install.ps1 | iex
+  run: irm https://raw.githubusercontent.com/dcc-mcp/mcpcall/main/scripts/install.ps1 | iex
 - run: mcpcall.exe list --url http://127.0.0.1:8765/mcp --json
 ```
 

@@ -8,7 +8,7 @@ inputs:
     required: false
   repo:
     description: Repository that publishes mcpcall release assets.
-    default: loonghao/mcpcall
+    default: dcc-mcp/mcpcall
     required: false
   install-dir:
     description: Directory where the binary should be installed. Defaults to RUNNER_TEMP/mcpcall-bin.

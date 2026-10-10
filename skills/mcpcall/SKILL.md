@@ -8,6 +8,9 @@ description: Call MCP servers from shell commands through the mcpcall CLI over s
 Use `mcpcall` when the host can run shell commands and should interact with an
 MCP server without registering that server directly with the agent runtime.
 
+Repository and release authority: [dcc-mcp/mcpcall](https://github.com/dcc-mcp/mcpcall).
+The transferred repository preserves crate names and versions; old source links redirect.
+
 ## Critical Rules
 
 - Use `mcpcall`, not `mcp`; `mcp` commonly belongs to other MCP tooling.

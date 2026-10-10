@@ -3,7 +3,7 @@ name = "mcpcall"
 version = "0.4.1"
 edition = "2024"
 license = "MIT OR Apache-2.0"
-repository = "https://github.com/loonghao/mcpcall"
+repository = "https://github.com/dcc-mcp/mcpcall"
 description = "CLI for listing and calling MCP server tools over stdio or Streamable HTTP."
 
 [workspace]
@@ -13,7 +13,7 @@ resolver = "3"
 [workspace.package]
 edition = "2024"
 license = "MIT OR Apache-2.0"
-repository = "https://github.com/loonghao/mcpcall"
+repository = "https://github.com/dcc-mcp/mcpcall"
 
 [workspace.dependencies]
 anyhow = "1.0"
