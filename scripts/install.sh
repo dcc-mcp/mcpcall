@@ -1,7 +1,7 @@
 #!/usr/bin/env sh
 set -eu
 
-repo="${MCPCALL_REPO:-loonghao/mcpcall}"
+repo="${MCPCALL_REPO:-dcc-mcp/mcpcall}"
 version="${MCPCALL_VERSION:-latest}"
 install_dir="${MCPCALL_INSTALL_DIR:-$HOME/.local/bin}"
 
