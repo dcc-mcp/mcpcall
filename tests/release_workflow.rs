@@ -1,8 +1,15 @@
 //! Dependency-free checks for the release authentication contract. Actionlint
 //! validates YAML; these checks deliberately target the release-please job.
 
-const WORKFLOW: &str = include_str!("../.github/workflows/release.yml");
+use std::sync::LazyLock;
+
+static WORKFLOW: LazyLock<String> =
+    LazyLock::new(|| normalize_workflow(include_str!("../.github/workflows/release.yml")));
 const TOKEN: &str = "${{ secrets.PERSONAL_ACCESS_TOKEN }}";
+
+fn normalize_workflow(workflow: &str) -> String {
+    workflow.replace("\r\n", "\n")
+}
 
 fn release_steps(workflow: &str) -> Vec<&str> {
     let job = workflow
@@ -49,8 +56,8 @@ fn check_authentication(workflow: &str) -> Result<(), &'static str> {
 
 #[test]
 fn release_please_requires_the_explicit_token() {
-    check_authentication(WORKFLOW).unwrap();
-    let steps = release_steps(WORKFLOW);
+    check_authentication(&WORKFLOW).unwrap();
+    let steps = release_steps(&WORKFLOW);
     let action = steps.last().unwrap();
     for expected in [
         "        id: release\n",
@@ -67,6 +74,30 @@ fn release_please_requires_the_explicit_token() {
 }
 
 #[test]
+fn crlf_workflow_preserves_parsing_and_authentication_negative_controls() {
+    let lf = normalize_workflow(include_str!("../.github/workflows/release.yml"));
+    let crlf = lf.replace('\n', "\r\n");
+    assert!(crlf.contains("\r\n"));
+    let normalized = normalize_workflow(&crlf);
+    assert_eq!(release_steps(&normalized), release_steps(&lf));
+    check_authentication(&normalized).unwrap();
+
+    let missing_guard = normalized.replacen("      - name: Require release token\n", "", 1);
+    assert!(check_authentication(&missing_guard).is_err());
+    let skippable = normalized.replacen(
+        "name: Require release token\n",
+        "name: Require release token\n        if: false\n",
+        1,
+    );
+    assert!(check_authentication(&skippable).is_err());
+    let fallback = normalized.replace(
+        &format!("token: {TOKEN}"),
+        "token: ${{ secrets.PERSONAL_ACCESS_TOKEN || github.token }}",
+    );
+    assert!(check_authentication(&fallback).is_err());
+}
+
+#[test]
 fn rejects_implicit_token_fallbacks() {
     for fallback in ["github.token", "secrets.GITHUB_TOKEN"] {
         let mutated = WORKFLOW.replace(
@@ -79,7 +110,7 @@ fn rejects_implicit_token_fallbacks() {
 
 #[test]
 fn rejects_missing_or_late_preflight() {
-    let steps = release_steps(WORKFLOW);
+    let steps = release_steps(&WORKFLOW);
     let preflight = format!("      - {}", steps[0]);
     let without_preflight = WORKFLOW.replacen(&preflight, "", 1);
     assert!(check_authentication(&without_preflight).is_err());
@@ -117,7 +148,7 @@ fn rejects_wrong_preflight_token() {
 // of the workspace's Windows CI matrix; its structural checks above still run.
 #[cfg(unix)]
 fn run_preflight(token: Option<&str>) -> std::process::Output {
-    let steps = release_steps(WORKFLOW);
+    let steps = release_steps(&WORKFLOW);
     let script = steps[0]
         .split_once("\n        run: |\n")
         .unwrap()
