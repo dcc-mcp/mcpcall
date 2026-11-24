@@ -29,3 +29,8 @@ skill-zip:
 
 run *ARGS:
     cargo run -- {{ARGS}}
+
+
+# Verify the pinned VX and just toolchain.
+toolchain-ci:
+    vx just@1.58 --version
